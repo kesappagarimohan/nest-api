@@ -28,8 +28,8 @@ export class AddressController {
   }
 
   @Get()
-  findAll() {
-    return this.addressService.findAll();
+  findAll(@Request() req:any) {
+    return this.addressService.findAll(req.user.userId);
   }
 
   @Get(':id')

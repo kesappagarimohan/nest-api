@@ -31,8 +31,9 @@ export class OrderDetailsService {
     })
   }
 
-  findAll() {
-    return this.orderDetailrepository.find();
+  async findAll(userId:string) {
+    const user = await this.userService.findById(userId)
+    return this.orderDetailrepository.find({where:{userId:user}});
   }
 
  async findOne(id: number) {

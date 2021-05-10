@@ -17,12 +17,12 @@ export class OrderController {
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  findAll(@Request() req:any) {
+    return this.orderService.findAll(req.user.userId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string,) {
     return this.orderService.findOne(+id)
   }
 

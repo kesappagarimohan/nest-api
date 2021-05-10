@@ -17,8 +17,8 @@ export class PaymentController {
   }
 
   @Get()
-  findAll() {
-    return this.paymentService.findAll();
+  findAll(@Request() req:any) {
+    return this.paymentService.findAll(req.user.usrId);
   }
 
   @Get(':id')

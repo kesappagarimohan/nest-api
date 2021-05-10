@@ -26,8 +26,9 @@ export class AddressService {
     });
   }
 
-  findAll() {
-    return this.addressRepository.find();
+  async findAll(userId:any) {
+    const user = await this.userService.findById(userId)
+    return this.addressRepository.find({where:{user}});
   }
 
   async findOne(id: number) {

@@ -32,11 +32,13 @@ export class OrderService {
     })
   }
 
-  findAll() {
-    return this.orderRepository.find();
+  async findAll(userId:string) {
+    const user=await this.userService.findById(userId)
+    return this.orderRepository.find({where:{userId:user}});
   }
 
   async findOne(id: number) {
+    
     return this.orderRepository.findOne(id).
     then((data)=>{
       if(!data) throw new NotFoundException();
