@@ -7,7 +7,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 export class OrderDetail {
 
     @PrimaryGeneratedColumn()
-    orderDetailId:number
+    orderDetailId:number 
 
     @Column({type:'decimal',precision:10})
     orderAmount:number
@@ -20,15 +20,15 @@ export class OrderDetail {
 
     @ManyToOne(()=>Order,(order)=>order.orderId)
     @JoinColumn({name:'orderId'})
-    order:Order;
+    orderId:Order;
 
     @ManyToOne(()=>Product,(product)=>product.productId)
     @JoinColumn({name:'productId'})
-    product:Product;
+    productId:Product;
 
     @ManyToOne(()=>UserEntity,(userEntity)=>userEntity.userId)
     @JoinColumn({name:'userId'})
-    user:UserEntity
+    userId:UserEntity
     
 
 }

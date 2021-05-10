@@ -41,7 +41,7 @@ export class ProductService {
   fingByQuery(query: string) {
     return this.productRepository
       .findAndCount({
-        where: { productName: Like(`%${query}%`) },
+        where: { productName: Like(`%${query}%`) }, 
         order: { productId: 'ASC' },
       })
       .then((d) => ({ totalItems: d[1], data: d[0] }));

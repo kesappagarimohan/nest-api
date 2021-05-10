@@ -39,14 +39,14 @@ export class UserEntity {
   @OneToMany(() => Address, (address) => address.user)
   address: Address[];
 
-  @OneToMany(()=>Order,(order)=>order.user)
-  order:Order[];
+  @OneToMany(()=>Order,(order)=>order.userId)
+  orderId:Order[];
 
-  @OneToMany(()=>OrderDetail,(orderDetail)=>orderDetail.user)
-  orderDetail:OrderDetail[];
+  @OneToMany(()=>OrderDetail,(orderDetail)=>orderDetail.userId)
+  orderDetailId:OrderDetail[];
 
-  @OneToMany(()=>Payment,(payment)=>payment.user)
-  payment:Payment[]
+  @OneToMany(()=>Payment,(payment)=>payment.userId)
+  paymentId:Payment[]
 
 
 }

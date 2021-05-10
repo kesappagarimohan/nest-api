@@ -5,7 +5,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Order')
+@ApiTags('order')
 @Controller('order')
 @UseGuards(JwtAuthGuard)
 export class OrderController {
@@ -13,7 +13,7 @@ export class OrderController {
 
   @Post()
   create(@Request() req:any,@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(req.user.userId,createOrderDto);
+    return this.orderService.create(req.user.userId,req.productId,createOrderDto);
   }
 
   @Get()
@@ -23,7 +23,7 @@ export class OrderController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+    return this.orderService.findOne(+id)
   }
 
   @Patch(':id')

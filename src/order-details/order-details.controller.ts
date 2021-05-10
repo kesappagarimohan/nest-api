@@ -13,7 +13,7 @@ export class OrderDetailsController {
 
   @Post()
   create(@Request() req:any,@Body() createOrderDetailDto: CreateOrderDetailDto) {
-    return this.orderDetailsService.create(req.user.userId,createOrderDetailDto);
+    return this.orderDetailsService.create(req.user.userId,req.orderId,req.productId,createOrderDetailDto);
   }
 
   @Get()

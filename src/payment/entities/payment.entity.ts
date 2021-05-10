@@ -1,5 +1,5 @@
 import { UserEntity } from "src/auth/entities/user.entity";
-import { UserService } from "src/auth/user/user.service";
+
 import { Order } from "src/order/entities/order.entity";
 import { Product } from "src/product/entities/product.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -16,20 +16,20 @@ export class Payment {
     @Column({default:0,type:'decimal',precision:10})
     payAmount:number
 
-    @Column()
-    paymentData:string
+    @Column({type:'date',nullable:true})
+    paymentDate:Date
 
     @ManyToOne(()=>Product,(product)=>product.productId)
     @JoinColumn({name:'productId'})
-    product:Product
+    productId:Product
 
     @ManyToOne(()=>Order,(order)=>order.orderId)
     @JoinColumn({name:'orderId'})
-    order:Order;
+    orderId:Order;
 
     @ManyToOne(()=>UserEntity,(userEntity)=>userEntity.userId)
     @JoinColumn({name:'userId'})
-    user:UserEntity
+    userId:UserEntity
 
 
 }

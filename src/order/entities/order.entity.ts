@@ -1,7 +1,8 @@
+import { Product } from './../../product/entities/product.entity';
 import { UserEntity } from "src/auth/entities/user.entity";
 import { OrderDetail } from "src/order-details/entities/order-detail.entity";
 import { Payment } from "src/payment/entities/payment.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name:'order'})
 export class Order {
@@ -23,13 +24,16 @@ export class Order {
 
     @ManyToOne(()=>UserEntity,(userEntity)=>userEntity.userId)
     @JoinColumn({name:'userId'})
-    user:UserEntity;
+    userId:UserEntity;
 
-    
+    @ManyToOne(()=>Product,(product)=>product.productId)
+    @JoinColumn({name:'productId'})
+    //@JoinTable()
+    productId:Product
 
-    @OneToMany(()=>OrderDetail,(orderDetail)=>orderDetail.order)
-    orderDetail:OrderDetail[];
+    @OneToMany(()=>OrderDetail,(orderDetail)=>orderDetail.orderId)
+    orderDetailId:OrderDetail[];
 
-    @OneToMany(()=>Payment,(payment)=>payment.order)
-    payment:Payment[];
+    @OneToMany(()=>Payment,(payment)=>payment.orderId)
+    paymentId:Payment[];
 }

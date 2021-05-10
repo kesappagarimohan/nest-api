@@ -9,13 +9,13 @@ export class CreateOrderDetailDto {
     qty:number
 
     @ApiProperty()
-    order:number
+    orderId:number
 
     @ApiProperty()
-    product:number
+    productId:number
 
     @ApiProperty()
-    user:string
+    userId:string
 
 
 }

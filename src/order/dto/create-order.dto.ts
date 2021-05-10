@@ -12,5 +12,9 @@ export class CreateOrderDto {
     status?:string
     
     @ApiProperty()
-    user:string
+    userId:string
+
+    @ApiProperty()
+    productId:number
+
 }

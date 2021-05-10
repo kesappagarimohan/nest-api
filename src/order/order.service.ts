@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/auth/user/user.service';
+import { ProductService } from 'src/product/product.service';
+
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -10,19 +12,23 @@ import { Order } from './entities/order.entity';
 export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository:Repository<Order>,
-    private userService:UserService
+    private userService:UserService,private productService:ProductService
+   
   ){
 
   }
- async create(uId:string,createOrderDto: CreateOrderDto) {
-    const user =await this.userService.findById(uId)
+ async create(userId:string,productId:number,createOrderDto: CreateOrderDto) {
+    const user =await this.userService.findById(userId);
+    const product = await this.productService.findOne(productId)
     const{amount,sDate,status}=createOrderDto;
 
     return this.orderRepository.save({
       orderAmount:amount,
       shippingDate:sDate,
       orderStatus:status,
-      user:user
+      userId:user,
+      productId:product
+
     })
   }
 
@@ -38,11 +44,15 @@ export class OrderService {
     })
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    
+    
     return this.orderRepository.update({orderId:id},{
+    
       orderAmount:updateOrderDto.amount,
       shippingDate:updateOrderDto.sDate,
-      orderStatus:updateOrderDto.status
+      orderStatus:updateOrderDto.status,
+      
     }).then((data)=>{
       if(!data) throw new NotFoundException();
       return data;
