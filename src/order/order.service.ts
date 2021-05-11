@@ -36,18 +36,12 @@ export class OrderService {
     const user=await this.userService.findById(userId)
     return this.orderRepository.find({where:{userId:user}});
   }
-
-  async findOne(userId: string, id: number) {
-    const user = await this.userService.findById(userId)
-    return this.orderRepository.findOne({
-      where: { userId: user, orderId: id }
-    }).then((data) => {
-      if (!data) throw new NotFoundException();
+  findOne(id: number) {
+    return this.orderRepository.findOne(id).then((data) => {
+      if (!data) throw new NotFoundException(); //throw new HttpException({}, 204);
       return data;
-      
     });
   }
-
   async update(id: number, updateOrderDto: UpdateOrderDto) {
     
     

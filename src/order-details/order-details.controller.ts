@@ -15,7 +15,7 @@ export class OrderDetailsController {
   @ApiOkResponse({ description: 'OrderDetail Data Created for ID... 😺' })
   @Post()
   create(@Request() req:any,@Body() createOrderDetailDto: CreateOrderDetailDto) {
-    return this.orderDetailsService.create(req.user.userId,req.orderId,req.productId,createOrderDetailDto);
+    return this.orderDetailsService.create(req.user.userId,req.body.productId,req.body.orderId,createOrderDetailDto);
   }
 
   @ApiNotFoundResponse({ description: 'No data is Found..  😿' })
@@ -28,8 +28,8 @@ export class OrderDetailsController {
   @ApiNotFoundResponse({ description: 'No data is found For ID..  😿' })
   @ApiOkResponse({ description: 'OrderDetail Data Found for ID... 😺' })
   @Get(':id')
-  findOne(@Request() req:any,@Param('id') id: string) {
-    return this.orderDetailsService.findOne(req.user.userId,+id);
+  findOne(@Param('id') id: string) {
+    return this.orderDetailsService.findOne(+id);
   }
 
   @ApiNotFoundResponse({ description: 'No data is Updated...  😿' })

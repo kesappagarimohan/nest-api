@@ -17,9 +17,9 @@ export class OrderDetailsService {
 
   }
 
- async create(userId:string,orderId:number,productid:number,createOrderDetailDto: CreateOrderDetailDto) {
+ async create(userId:string,productid:number,orderId:number,createOrderDetailDto: CreateOrderDetailDto) {
     const user = await this.userService.findById(userId)
-    const order = await this.orderService.findOne(userId,orderId)
+    const order = await this.orderService.findOne(orderId)
     const product = await this.productService.findOne(productid)
 
     const {Amount,qty} = createOrderDetailDto;
@@ -27,7 +27,7 @@ export class OrderDetailsService {
       orderAmount:Amount,
       orderQty:qty,
       userId:user,
-      orderId:order,
+     orderId:order,
       productId:product
         
     })
@@ -38,10 +38,9 @@ export class OrderDetailsService {
     return this.orderDetailrepository.find({where:{userId:user}});
   }
 
- async findOne(userId:string,id: number) {
-  const user = await this.userService.findById(userId)
-    return this.orderDetailrepository.findOne({where:{userId:user,orderId:id}}).then((data)=>{
-      if(!data) throw new NotFoundException();
+  findOne(id: number) {
+    return this.orderDetailrepository.findOne(id).then((data) => {
+      if (!data) throw new NotFoundException(); //throw new HttpException({}, 204);
       return data;
     });
   }
