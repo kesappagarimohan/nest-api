@@ -13,11 +13,13 @@ import { OrderDetail } from './entities/order-detail.entity';
 export class OrderDetailsService {
   constructor(
     @InjectRepository(OrderDetail)private orderDetailrepository:Repository<OrderDetail>,private userService:UserService,private orderService:OrderService,private productService:ProductService 
-  ){}
+  ){
+
+  }
 
  async create(userId:string,orderId:number,productid:number,createOrderDetailDto: CreateOrderDetailDto) {
     const user = await this.userService.findById(userId)
-    const order = await this.orderService.findOne(orderId)
+    const order = await this.orderService.findOne(userId,orderId)
     const product = await this.productService.findOne(productid)
 
     const {Amount,qty} = createOrderDetailDto;
@@ -36,8 +38,9 @@ export class OrderDetailsService {
     return this.orderDetailrepository.find({where:{userId:user}});
   }
 
- async findOne(id: number) {
-    return this.orderDetailrepository.findOne(id).then((data)=>{
+ async findOne(userId:string,id: number) {
+  const user = await this.userService.findById(userId)
+    return this.orderDetailrepository.findOne({where:{userId:user,orderId:id}}).then((data)=>{
       if(!data) throw new NotFoundException();
       return data;
     });
@@ -54,6 +57,7 @@ export class OrderDetailsService {
   }
 
   remove(id: number) {
+    
     return this.orderDetailrepository.delete({orderDetailId:id});
   }
 }

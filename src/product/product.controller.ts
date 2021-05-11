@@ -26,33 +26,43 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
+  @ApiNotFoundResponse({ description: 'No data is Created...  😿' })
+  @ApiOkResponse({ description: 'Product Data Created... 😺' })
   @Post('bulk')
   createBulk() {
     return this.productService.bulkCreate();
   }
 
+  @ApiNotFoundResponse({ description: 'No data is found...  😿' })
+  @ApiOkResponse({ description: 'All Product Data found... 😺' })
   @Get()
   findAll(@Query('page') page: number = 1, @Query('size') size: number = 20) {
     return this.productService.findAll(page, size);
   }
 
+  @ApiNotFoundResponse({ description: 'No data is found for the specified ID... 😿' })
+  @ApiOkResponse({ description: 'Product Data found... 😺' })
   @Get('search')
   findByQuery(@Query('q') query: string) {
     return this.productService.fingByQuery(query);
   }
 
-  @ApiNotFoundResponse({ description: 'No data is found for the specified ID' })
-  @ApiOkResponse({ description: 'Product Data found' })
+  @ApiNotFoundResponse({ description: 'No data is found for the specified ID... 😿' })
+  @ApiOkResponse({ description: 'Product Data found... 😺' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
 
+  @ApiNotFoundResponse({ description: 'No data is Updated...  😿' })
+  @ApiOkResponse({ description: 'Product Data Updated for ID... 😺' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
+  @ApiNotFoundResponse({ description: 'No data is Deleted...  😿' })
+  @ApiOkResponse({ description: 'Product Data Deleted for ID... 😺' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);

@@ -20,7 +20,7 @@ constructor(
   async create(userId:string,productId:number,orderId:number,createPaymentDto: CreatePaymentDto) {
     const user = await this.userService.findById(userId)
     const product = await this.productService.findOne(productId)
-    const order = await this.orderService.findOne(orderId)
+    const order = await this.orderService.findOne(userId,orderId)
 
     const{Amount,Date,status}=createPaymentDto;
     return this.paymentRepository.save({
@@ -39,8 +39,9 @@ constructor(
     return this.paymentRepository.find({where:{userId:user}});
   }
 
-  async findOne(id: number) {
-    return this.paymentRepository.findOne(id).then((data)=>{
+  async findOne(userId:string,id: number) {
+    const user=await this.userService.findById(userId)
+    return this.paymentRepository.findOne({where:{userId:user,orderId:id}}).then((data)=>{
       if(!data) throw new NotFoundException();
       return data;
     })
