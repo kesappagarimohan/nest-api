@@ -1,21 +1,21 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
-import { Like, Repository } from 'typeorm';
+import { HttpException, Injectable, NotFoundException } from "@nestjs/common";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Product } from "./entities/product.entity";
+import { Like, Repository } from "typeorm";
 import {
   uniqueNamesGenerator,
   adjectives,
   colors,
   names,
   languages,
-} from 'unique-names-generator';
+} from "unique-names-generator";
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Product) private productRepository: Repository<Product>,
+    @InjectRepository(Product) private productRepository: Repository<Product>
   ) {}
   create(createProductDto: CreateProductDto) {
     return this.productRepository.save({
@@ -24,9 +24,12 @@ export class ProductService {
     });
   }
 
-  findAll(page: number, size: number) {
+  findAll(page: number, size: number, serachByTerm: string) {
     return this.productRepository
       .findAndCount({
+        where: {
+          productName: Like(`%${serachByTerm}%`),
+        },
         take: size,
         skip: (page - 1) * size,
       })
@@ -41,8 +44,8 @@ export class ProductService {
   fingByQuery(query: string) {
     return this.productRepository
       .findAndCount({
-        where: { productName: Like(`%${query}%`) }, 
-        order: { productId: 'ASC' },
+        where: { productName: Like(`%${query}%`) },
+        order: { productId: "ASC" },
       })
       .then((d) => ({ totalItems: d[1], data: d[0] }));
   }
@@ -60,7 +63,7 @@ export class ProductService {
       {
         productName: updateProductDto.name,
         productImage: updateProductDto.image,
-      },
+      }
     );
   }
 
@@ -87,10 +90,10 @@ export class ProductService {
         productId: 1000 + i + 1,
         productName: uniqueNamesGenerator({
           dictionaries: [adjectives, colors, names],
-          separator: ' ',
+          separator: " ",
         }),
         productImage: `https://picsum.photos/400?image=${Math.floor(
-          Math.random() * 1000,
+          Math.random() * 1000
         )}`,
         productStock: randomStock,
         productPrice: randomPrice.toFixed(2),
