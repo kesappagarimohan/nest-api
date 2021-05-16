@@ -24,8 +24,7 @@ export class ProductService {
       productImage: createProductDto.image,
     });
   }
-
-  findAllPLTH(
+  findAllNHTL(
     page: number,
     size: number,
     minPrice: number,
@@ -40,7 +39,34 @@ export class ProductService {
           productSalePrice: Between(minPrice, maxPrice),
           productName: Like(`%${searchData}%`),
         },
-        order: { productSalePrice: "ASC" },
+        order: { productName: "DESC" },
+
+        take: size,
+        skip: (page - 1) * size,
+      })
+      .then((res) => ({
+        totalItems: res[1],
+        data: res[0],
+        currentPage: page,
+        totalPages: Math.ceil(res[1] / size),
+      }));
+  }
+  findAllNLTH(
+    page: number,
+    size: number,
+    minPrice: number,
+    maxPrice: number,
+    searchData: string,
+    sortName: string,
+    sortPrice: string
+  ) {
+    return this.productRepository
+      .findAndCount({
+        where: {
+          productSalePrice: Between(minPrice, maxPrice),
+          productName: Like(`%${searchData}%`),
+        },
+        order: { productName: "ASC" },
 
         take: size,
         skip: (page - 1) * size,
@@ -81,7 +107,7 @@ export class ProductService {
       }));
   }
 
-  findAllNLTH(
+  findAllPLTH(
     page: number,
     size: number,
     minPrice: number,
@@ -96,35 +122,7 @@ export class ProductService {
           productSalePrice: Between(minPrice, maxPrice),
           productName: Like(`%${searchData}%`),
         },
-        order: { productName: "ASC" },
-
-        take: size,
-        skip: (page - 1) * size,
-      })
-      .then((res) => ({
-        totalItems: res[1],
-        data: res[0],
-        currentPage: page,
-        totalPages: Math.ceil(res[1] / size),
-      }));
-  }
-
-  findAllNHTL(
-    page: number,
-    size: number,
-    minPrice: number,
-    maxPrice: number,
-    searchData: string,
-    sortName: string,
-    sortPrice: string
-  ) {
-    return this.productRepository
-      .findAndCount({
-        where: {
-          productSalePrice: Between(minPrice, maxPrice),
-          productName: Like(`%${searchData}%`),
-        },
-        order: { productName: "DESC" },
+        order: { productSalePrice: "ASC" },
 
         take: size,
         skip: (page - 1) * size,
