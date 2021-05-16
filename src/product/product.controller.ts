@@ -26,51 +26,94 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
-  @ApiNotFoundResponse({ description: "No data is Created...  😿" })
-  @ApiOkResponse({ description: "Product Data Created... 😺" })
   @Post("bulk")
   createBulk() {
     return this.productService.bulkCreate();
   }
 
-  @ApiNotFoundResponse({ description: "No data is found...  😿" })
-  @ApiOkResponse({ description: "All Product Data found... 😺" })
   @Get()
   findAll(
     @Query("page") page: number = 1,
     @Query("size") size: number = 20,
-    @Query("serachByTerm") serachByTerm: string
+    @Query("minPrice") minPrice: number = 1,
+    @Query("maxPrice") maxPrice: number = 5000,
+    @Query("searchByTerm") searchByTerm: string,
+    @Query("sortByName") sortByName: string,
+    @Query("sortByPrice") sortByPrice: string
   ) {
-    return this.productService.findAll(page, size, serachByTerm);
+    switch (true) {
+      case sortByName == "productSalePrice" && sortByPrice == "ASC":
+        return this.productService.findAllPLTH(
+          page,
+          size,
+          minPrice,
+          maxPrice,
+          searchByTerm,
+          sortByName,
+          sortByPrice
+        );
+      case sortByName == "productSalePrice" && sortByPrice == "DESC":
+        return this.productService.findAllPHTL(
+          page,
+          size,
+          minPrice,
+          maxPrice,
+          searchByTerm,
+          sortByName,
+          sortByPrice
+        );
+      case sortByName == "productName" && sortByPrice == "ASC":
+        return this.productService.findAllNLTH(
+          page,
+          size,
+          minPrice,
+          maxPrice,
+          searchByTerm,
+          sortByName,
+          sortByPrice
+        );
+      case sortByName == "productName" && sortByPrice == "ASC":
+        return this.productService.findAllNLTH(
+          page,
+          size,
+          minPrice,
+          maxPrice,
+          searchByTerm,
+          sortByName,
+          sortByPrice
+        );
+    }
+
+    return this.productService.findAll(
+      page,
+      size,
+      minPrice,
+      maxPrice,
+      searchByTerm,
+      sortByName,
+      sortByPrice
+    );
   }
 
-  @ApiNotFoundResponse({
-    description: "No data is found for the specified ID... 😿",
-  })
-  @ApiOkResponse({ description: "Product Data found... 😺" })
   @Get("search")
   findByQuery(@Query("q") query: string) {
-    return this.productService.fingByQuery(query);
+    return this.productService.findByQuery(query);
   }
 
   @ApiNotFoundResponse({
-    description: "No data is found for the specified ID... 😿",
+    description: "No data is found for the specified ID",
   })
-  @ApiOkResponse({ description: "Product Data found... 😺" })
+  @ApiOkResponse({ description: "Product Data found" })
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.productService.findOne(+id);
   }
 
-  @ApiNotFoundResponse({ description: "No data is Updated...  😿" })
-  @ApiOkResponse({ description: "Product Data Updated for ID... 😺" })
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
-  @ApiNotFoundResponse({ description: "No data is Deleted...  😿" })
-  @ApiOkResponse({ description: "Product Data Deleted for ID... 😺" })
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.productService.remove(+id);
