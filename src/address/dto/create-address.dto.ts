@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsNumber } from "class-validator";
 
 export class CreateAddressDto {
   @ApiProperty()
@@ -16,9 +16,26 @@ export class CreateAddressDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  state: string;
+  stateName: string;
 
   @ApiProperty()
-  
   pincode: number;
+
+  @ApiProperty()
+  mobile: number;
+
+  @ApiProperty()
+  userId: string;
+
+  @ApiProperty()
+  productId: number;
+
+  @ApiProperty()
+  orderId: number;
+
+  @ApiProperty()
+  orderDetailId: number;
+
+  @ApiProperty()
+  paymentId: number;
 }

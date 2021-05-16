@@ -4,20 +4,23 @@ import {
   Column,
   BeforeInsert,
   OneToMany,
-} from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Address } from 'src/address/entities/address.entity';
-import { Order } from 'src/order/entities/order.entity';
-import { OrderDetail } from 'src/order-details/entities/order-detail.entity';
-import { Payment } from 'src/payment/entities/payment.entity';
+} from "typeorm";
+import * as bcrypt from "bcrypt";
+import { Address } from "src/address/entities/address.entity";
+import { Order } from "src/order/entities/order.entity";
+import { OrderDetail } from "src/order-details/entities/order-detail.entity";
+import { Payment } from "src/payment/entities/payment.entity";
 
-@Entity({ name: 'user' })
+@Entity({ name: "user" })
 export class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   userId: string;
 
   @Column({ nullable: false })
   userName: string;
+
+  @Column({ nullable: false, unique: true, precision: 15, type: "decimal" })
+  userMobile: number;
 
   @Column({ nullable: false, unique: true })
   userEmail: string;
@@ -25,7 +28,7 @@ export class UserEntity {
   @Column({ nullable: false })
   userPassword: string; // plain text password
 
-  @Column({ type: 'datetime' })
+  @Column({ type: "datetime" })
   createdAt: Date;
 
   // hooks : tasks to be executed
@@ -36,17 +39,15 @@ export class UserEntity {
   }
 
   // one user will have many addressess
-  @OneToMany(() => Address, (address) => address.user)
+  @OneToMany(() => Address, (address) => address.userId)
   address: Address[];
 
-  @OneToMany(()=>Order,(order)=>order.userId)
-  orderId:Order[];
+  @OneToMany(() => Order, (order) => order.userId)
+  orderId: Order[];
 
-  @OneToMany(()=>OrderDetail,(orderDetail)=>orderDetail.userId)
-  orderDetailId:OrderDetail[];
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.userId)
+  orderDetailId: OrderDetail[];
 
-  @OneToMany(()=>Payment,(payment)=>payment.userId)
-  paymentId:Payment[]
-
-
+  @OneToMany(() => Payment, (payment) => payment.userId)
+  paymentId: Payment[];
 }

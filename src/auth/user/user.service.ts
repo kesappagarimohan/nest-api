@@ -1,14 +1,14 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UserEntity } from '../entities/user.entity';
+import { HttpException, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CreateUserDto } from "../dto/create-user.dto";
+import { UserEntity } from "../entities/user.entity";
 
 @Injectable()
 export class UserService {
   // CRUD BEHAVIOR OF USER ENTITY
   constructor(
-    @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
+    @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>
   ) {}
 
   async findByEmail(email: string) {
@@ -20,16 +20,17 @@ export class UserService {
   }
 
   async create(userDto: CreateUserDto) {
-    const { email, password, name } = userDto;
+    const { email, password, name, mobile } = userDto;
     const isUserAvailable = await this.findByEmail(email);
     if (isUserAvailable) {
-      throw new HttpException({ message: 'User already exists' }, 400);
+      throw new HttpException({ message: "User already exists" }, 400);
     }
     const user = this.userRepo.create({
       createdAt: new Date().toISOString(),
       userEmail: email,
       userPassword: password,
       userName: name,
+      userMobile: mobile,
     });
     return this.userRepo.save(user);
   }
