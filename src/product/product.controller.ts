@@ -72,8 +72,8 @@ export class ProductController {
           sortByName,
           sortByPrice
         );
-      case sortByName == "productName" && sortByPrice == "ASC":
-        return this.productService.findAllNLTH(
+      case sortByName == "productName" && sortByPrice == "DESC":
+        return this.productService.findAllNHTL(
           page,
           size,
           minPrice,
