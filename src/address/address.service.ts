@@ -52,7 +52,7 @@ export class AddressService {
 
   async findAll(userId: any) {
     const user = await this.userService.findById(userId);
-    return this.addressRepository.find({ where: { user } });
+    return this.addressRepository.find({ where: { userId: user } });
   }
 
   async findOne(id: number) {
@@ -77,6 +77,6 @@ export class AddressService {
   }
 
   remove(id: number) {
-    return this.addressRepository.delete({ id });
+    return this.addressRepository.delete({ id: id });
   }
 }

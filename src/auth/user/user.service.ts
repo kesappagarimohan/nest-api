@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UserEntity } from "../entities/user.entity";
-
 @Injectable()
 export class UserService {
   // CRUD BEHAVIOR OF USER ENTITY
@@ -14,9 +13,11 @@ export class UserService {
   async findByEmail(email: string) {
     return this.userRepo.findOne({ where: { userEmail: email } });
   }
-
   async findById(id: string) {
-    return this.userRepo.findOne({ where: { userId: id } });
+    return this.userRepo.findOne({
+      where: { userId: id },
+      relations: ["address"],
+    });
   }
 
   async create(userDto: CreateUserDto) {

@@ -45,7 +45,7 @@ export class AddressController {
   @ApiOkResponse({ description: "All Adress Data Found... 😺" })
   @Get()
   findAll(@Request() req: any) {
-    return this.addressService.findAll(req.user.userId);
+    return this.addressService.findAll(req.user.usrId);
   }
 
   @ApiNotFoundResponse({ description: "No data is Found...  😿" })
