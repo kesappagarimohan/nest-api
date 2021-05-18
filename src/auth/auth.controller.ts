@@ -80,6 +80,6 @@ export class AuthController {
   }
   @Get(":imgpath")
   seeUploadedFile(@Param("imgpath") image, @Res() res) {
-    return res.sendFile(image, { root: "uploads" });
+    return res.sendFile(image, { root: "./uploads" });
   }
 }
