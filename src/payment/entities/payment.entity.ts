@@ -20,10 +20,19 @@ export class Payment {
   @Column({ default: "pending" })
   paymentStatus: string;
 
-  @Column({ default: 0, type: "decimal", precision: 10 })
+  @Column({ default: 0, precision: 10 })
   payAmount: number;
 
-  @Column({ type: "date", nullable: true })
+  @Column({ nullable: false })
+  cardName: string;
+
+  @Column({ nullable: false })
+  cardNo: number;
+
+  @Column({ nullable: false })
+  cvv: number;
+
+  @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
   paymentDate: Date;
 
   @ManyToOne(() => Product, (product) => product.productId)

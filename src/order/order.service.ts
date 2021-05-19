@@ -22,12 +22,13 @@ export class OrderService {
   ) {
     const user = await this.userService.findById(userId);
     const product = await this.productService.findOne(productId);
-    const { amount, sDate, status } = createOrderDto;
+    const { qty, amount, sDate, status } = createOrderDto;
 
     return this.orderRepository.save({
       orderAmount: amount,
       shippingDate: sDate,
       orderStatus: status,
+      orderQty: qty,
       userId: user,
       productId: product,
     });
@@ -54,6 +55,7 @@ export class OrderService {
           orderAmount: updateOrderDto.amount,
           shippingDate: updateOrderDto.sDate,
           orderStatus: updateOrderDto.status,
+          orderQty: updateOrderDto.qty,
         }
       )
       .then((data) => {

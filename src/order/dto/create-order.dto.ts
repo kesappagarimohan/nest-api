@@ -8,6 +8,8 @@ export class CreateOrderDto {
   sDate: string;
 
   @ApiProperty()
+  qty: number;
+  @ApiProperty()
   status?: string;
 
   @ApiProperty()

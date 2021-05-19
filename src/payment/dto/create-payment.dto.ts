@@ -8,7 +8,13 @@ export class CreatePaymentDto {
   Amount: number;
 
   @ApiProperty()
-  Date: Date;
+  cardName: string;
+
+  @ApiProperty()
+  cardNo: number;
+
+  @ApiProperty()
+  cvv: number;
   @ApiProperty()
   userId: string;
 

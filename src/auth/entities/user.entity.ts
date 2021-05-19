@@ -19,10 +19,10 @@ export class UserEntity {
   @Column({ nullable: false })
   userName: string;
 
-  @Column({ nullable: false, unique: true, precision: 15, type: "decimal" })
+  @Column({ nullable: false, precision: 15, type: "decimal" })
   userMobile: number;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false })
   userEmail: string;
 
   @Column({ nullable: false })

@@ -29,6 +29,8 @@ export class Order {
 
   @Column({ default: "pending" })
   orderStatus: string;
+  @Column({ type: "integer" })
+  orderQty: number;
 
   @ManyToOne(() => UserEntity, (userEntity) => userEntity.userId)
   @JoinColumn({ name: "userId" })
