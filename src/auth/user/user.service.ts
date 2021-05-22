@@ -1,8 +1,11 @@
+import { UpdateUserDto } from "./../dto/update-user.dto";
 import { HttpException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { switchMap } from "rxjs/operators";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UserEntity } from "../entities/user.entity";
+import { from } from "rxjs";
 @Injectable()
 export class UserService {
   // CRUD BEHAVIOR OF USER ENTITY
@@ -34,5 +37,10 @@ export class UserService {
       userMobile: mobile,
     });
     return this.userRepo.save(user);
+  }
+  updateOne(id: string, user: UpdateUserDto) {
+    return from(this.userRepo.update(id, user)).pipe(
+      switchMap(() => this.findById(id))
+    );
   }
 }

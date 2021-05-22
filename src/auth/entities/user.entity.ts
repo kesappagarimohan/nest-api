@@ -31,6 +31,8 @@ export class UserEntity {
   @Column({ type: "datetime" })
   createdAt: Date;
 
+  @Column({ nullable: true })
+  profileImage: string;
   // hooks : tasks to be executed
   // this gets executed before every insert operation
   @BeforeInsert()

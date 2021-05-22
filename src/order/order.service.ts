@@ -41,7 +41,7 @@ export class OrderService {
       relations: ["productId"],
     });
   }
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.orderRepository.findOne(id).then((data) => {
       if (!data) throw new NotFoundException(); //throw new HttpException({}, 204);
       return data;
